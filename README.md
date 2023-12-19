@@ -11,34 +11,21 @@ This project utilizes an ESP8266 microcontroller, a single-channel relay, and an
   - `SmartPowerControl.ino`: Contains the main logic and setup for the project.
   - `wifi.h`: Manages Wi-Fi connectivity and setup.
 
-### Code Functionality
+### Key Functions and OpCodes
 
 #### Power Control
-- **`initACS()`:** Initializes the ACS712 current sensor and sets up the relay control pin.
-- **`currentReading()`:** Reads the current value based on the selected mode (AC or DC).
-- **`controlRelayState(boolean state)`:** Controls the relay state based on the received command.
-- **`systemControl(unsigned int opcode)`:** Handles various system control operations, such as turning the relay on/off, changing current mode, and system reset.
+- **`systemControl(unsigned int opcode)`:** Handles various system control operations based on opcodes received.
+  - **OpCodes:**
+    - `#define RELAY_ON_OPCODE 0x11AA`: Turns the relay on.
+    - `#define RELAY_OFF_OPCODE 0x22BB`: Turns the relay off.
+    - `#define RESET_OPCODE 0x33CC`: Resets the system.
+    - `#define DC_CURRENT_MODE 0x44DD`: Sets the device mode to DC current.
+    - `#define AC_CURRENT_MODE 0x55EE`: Sets the device mode to AC current.
 
 #### Server and Communication
-- **`getCurrentData()`:** Sends the current reading to the connected client.
-- **`startServer()`:** Starts the web server to handle incoming requests.
 - **`scanServerData()`:** Scans for incoming data from the server/client and triggers appropriate system control based on received commands.
+- **`startServer()`:** Starts the web server to handle incoming requests.
+- **`getCurrentData()`:** Sends the current reading to the connected client.
 
-#### Wi-Fi Initialization
+### Wi-Fi Initialization
 - **`initWiFi()`:** Initializes the ESP8266 module and sets it in Access Point mode, allowing client devices to connect.
-
-## Usage 🚀
-
-1. **Hardware Setup:**
-   - Connect the ACS712 current sensor and the relay module to the ESP8266 as per the defined pin configurations.
-2. **Code Upload:**
-   - Upload the provided code (`SmartPowerControl.ino`) to the ESP8266 using the Arduino IDE or compatible software.
-3. **Interaction:**
-   - Connect to the Wi-Fi network named "Controller-0" using the password "root12345".
-   - Send specific commands (e.g., to switch the relay on/off, change current modes) to the ESP8266 module via a client program or HTTP requests.
-
-## Additional Notes ℹ️
-
-- Customize pin configurations and sensor settings in the code according to your hardware connections.
-- Ensure proper power supply and connectivity for stable operation.
-- Exercise caution and proper safety measures while working with electrical components.
